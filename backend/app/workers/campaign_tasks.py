@@ -22,8 +22,12 @@ def send_campaign_to_recipients(self, campaign_id: str, customer_ids: list):
     logger.info(f"Launching campaign {campaign_id} to {len(customer_ids)} recipients")
 
     async def _run():
-        async with AsyncSessionLocal() as db:
-            await launch_campaign(db, campaign_id, customer_ids)
+        from app.core.database import engine
+        try:
+            async with AsyncSessionLocal() as db:
+                await launch_campaign(db, campaign_id, customer_ids)
+        finally:
+            await engine.dispose()
 
     try:
         asyncio.run(_run())

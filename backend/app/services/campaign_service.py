@@ -1,4 +1,4 @@
-"""Campaign service — business logic for campaign launch."""
+import asyncio
 import httpx
 import logging
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,21 +22,22 @@ async def launch_campaign(db: AsyncSession, campaign_id: str, customer_ids: list
         logger.error(f"Campaign {campaign_id} not found during launch")
         return
 
-    async with httpx.AsyncClient(timeout=10.0) as client:
-        for customer_id in customer_ids:
-            idempotency_key = f"{campaign_id}:{customer_id}:sent"
+    sem = asyncio.Semaphore(10)
 
-            # Create comm_event with status=sent
-            event = CommEvent(
-                campaign_id=campaign_id,
-                customer_id=customer_id,
-                channel=campaign.channel,
-                status="sent",
-                idempotency_key=idempotency_key,
-            )
-            db.add(event)
+    async def send_to_channel(client, customer_id):
+        idempotency_key = f"{campaign_id}:{customer_id}:sent"
 
-            # POST to channel service (fire and forget — callbacks come via /receipt)
+        # Create comm_event with status=sent
+        event = CommEvent(
+            campaign_id=campaign_id,
+            customer_id=customer_id,
+            channel=campaign.channel,
+            status="sent",
+            idempotency_key=idempotency_key,
+        )
+        db.add(event)
+
+        async with sem:
             try:
                 await client.post(
                     f"{settings.CHANNEL_SERVICE_URL}/send",
@@ -49,6 +50,9 @@ async def launch_campaign(db: AsyncSession, campaign_id: str, customer_ids: list
                 )
             except Exception as e:
                 logger.warning(f"Channel service unavailable for {customer_id}: {e}")
+
+    async with httpx.AsyncClient(timeout=10.0) as client:
+        await asyncio.gather(*(send_to_channel(client, cid) for cid in customer_ids))
 
     await db.commit()
 
