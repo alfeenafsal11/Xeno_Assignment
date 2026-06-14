@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Dynamically construct local receipt URL using runtime $PORT
+export CRM_RECEIPT_URL="http://localhost:$PORT/api/receipt"
+
 # Start channel-service on port 8001 in background
 echo "Starting Channel Service on port 8001..."
 cd /app/channel-service && uvicorn app.main:app --host 0.0.0.0 --port 8001 &
