@@ -1,0 +1,291 @@
+# XENO Engineering Take-Home Assignment
+
+# Build an AI-Native Mini CRM for Reaching Shoppers
+
+Hello, and thank you for your interest in joining Xeno as an engineer!
+
+Xeno helps consumer brands reach their shoppers in meaningful, data-driven ways — organising customer data, deciding who to talk to, and running personalised campaigns across channels like WhatsApp, SMS, Email and RCS.
+
+This assignment gives you a taste of the kind of work we do every day, and gives us a window into how you think, build, and ship.
+
+This is the same assignment for both our SDE and FDE roles.
+
+We want to see how you approach an open-ended product problem, end to end.
+
+---
+
+# The Challenge
+
+Build and deploy an AI-native Mini CRM that helps a brand intelligently reach its shoppers.
+
+Imagine a Direct-to-Consumer or retail brand — say a fashion label, a coffee chain, or a beauty brand — with a base of shoppers and their purchase history.
+
+Your product should help that brand:
+
+- Decide who to talk to
+- Decide what to say
+- Reach them over messaging channels like WhatsApp, SMS, Email and RCS
+
+At a minimum, the system you build should be able to:
+
+- Ingest data — take in customers and their orders, and store them.
+- Segment shoppers — let the marketer (or your AI) carve out audiences from that data based on behaviour and attributes.
+- Send personalised communications — dispatch tailored messages to a chosen audience through a channel service.
+- Surface communication performance insights — track and present how communications performed (e.g. sent, delivered, failed, opened, read, clicked, order came because of this communication) at the campaign and/or audience level.
+
+Beyond that, how you build it is deliberately up to you.
+
+We are not handing you a list of modules and screens like a traditional spec.
+
+Figuring out exactly what to build — and what NOT to build — is part of what we are evaluating.
+
+---
+
+# What We Mean By AI-Native
+
+The word "intelligent" above is intentional.
+
+We want to see AI woven into the product itself, not bolted on.
+
+There is no single right shape for this.
+
+Examples:
+
+- A classic product interface where AI assists the marketer at key steps (e.g. drafting messages, suggesting segments).
+- A chat-first experience where the marketer describes intent in natural language and the product responds.
+- An AI that helps the marketer think, decide and act — surfacing the right audience, recommending the message, choosing the channel.
+- A true AI agent that takes a broad goal brainstormed with the marketer and then executes the campaign end to end.
+
+These are illustrations, not requirements.
+
+Pick a point of view and commit to it.
+
+---
+
+# The Channel Service (Important)
+
+Do not integrate any real messaging provider.
+
+Instead, stub the channel yourself as a separate service and model the full lifecycle of a communication.
+
+Specifically:
+
+- CRM exposes a send API.
+- CRM calls a separate stubbed channel service.
+- Channel service receives:
+  - recipient
+  - message
+  - channel
+
+The channel service does not actually deliver anything.
+
+Instead it simulates outcomes.
+
+Asynchronously, it calls back into a CRM receipt API with events such as:
+
+- delivered
+- failed
+- opened
+- read
+- clicked
+
+CRM ingests these callbacks and updates communication state and statistics.
+
+This two-service callback-driven loop is deliberate.
+
+How you handle:
+
+- volume
+- ordering
+- retries
+- failures
+
+is part of what we want to evaluate.
+
+---
+
+# Scope: What This Is (And Isn't)
+
+This IS:
+
+- A CRM for reaching shoppers / consumers.
+- A marketing and engagement platform.
+
+This is NOT:
+
+- A sales CRM.
+- A customer support CRM.
+- Lead management.
+- Deal pipelines.
+- Ticketing systems.
+
+Examples not to build:
+
+- Salesforce
+- Attio
+- Clarify
+
+Use realistic, well-simulated data.
+
+Real customers and real orders are not required.
+
+---
+
+# What We're Evaluating
+
+## Build & Deploy (Table Stakes)
+
+- Live product
+- Hosted product
+- Working product
+- Walkthrough video
+
+This is baseline expectation.
+
+Not a differentiator.
+
+---
+
+## Creativity In Scoping
+
+We want to see:
+
+- What you chose to build.
+- What you deliberately chose not to build.
+
+Best submissions make strong product choices.
+
+Avoid building everything shallowly.
+
+---
+
+## AI-Native Development
+
+We want to understand:
+
+- How you leveraged AI.
+- How AI participated in your workflow.
+- How you directed AI.
+- How you reviewed AI output.
+- How you integrated AI output.
+
+Not simply whether AI was used.
+
+---
+
+## Code Quality & Structure
+
+We will review your code.
+
+Expected:
+
+- Clean
+- Readable
+- Well-organized
+- Sensible structure
+
+---
+
+## System Design & Scalability
+
+We care about:
+
+- Scale assumptions
+- Tradeoffs
+- Design reasoning
+
+More than perfect architecture.
+
+---
+
+## Thought Clarity & Communication
+
+We care about:
+
+- Clear thinking
+- Clear presentation
+- Clear explanations
+
+In your video and technical decisions.
+
+---
+
+# Deliverables
+
+## 1. Hosted Product
+
+Provide:
+
+- Public URL
+
+---
+
+## 2. Source Code
+
+Provide:
+
+- GitHub repository
+
+Interviewers will review code and ask detailed questions.
+
+---
+
+## 3. Walkthrough Video
+
+Length:
+
+5–6 minutes
+
+Suggested structure:
+
+### Product Intro (~0.5 min)
+
+What you built and why.
+
+### Functional Demo (~1.5 min)
+
+End-to-end demonstration.
+
+### Technical Architecture (~1 min)
+
+Architecture diagram and reasoning.
+
+### Code Walkthrough (~1 min)
+
+Repository structure and key components.
+
+### AI-Native Workflow (~1 min)
+
+How AI was leveraged while building.
+
+---
+
+# Ground Rules
+
+- Use AI freely.
+- Be able to defend everything you ship.
+- Make tradeoffs explicit.
+- State scale assumptions.
+- State conscious omissions.
+- Use any technology stack.
+- Originality matters.
+- Understand every line of submitted code.
+
+---
+
+# Submission
+
+Deadline:
+
+15 June 2026
+12:00 PM
+
+Submit:
+
+1. Hosted URL
+2. Repository Link
+3. Walkthrough Video
+
+We are excited to see what you build.
+
+Surprise us.
