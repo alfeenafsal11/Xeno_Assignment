@@ -348,7 +348,7 @@ export default function SegmentsPage() {
             <div style={{ marginBottom: 16 }}>
               <label className="label">Describe your audience</label>
               <textarea className="input" style={{ minHeight: 100 }}
-                placeholder="e.g. \"Customers who spent over ₹10,000 but haven't bought in 90 days and are gold or platinum tier\""
+                placeholder="e.g. 'Customers who spent over INR 10,000 but haven't bought in 90 days and are gold or platinum tier'"
                 value={aiQuery}
                 onChange={e => setAiQuery(e.target.value)}
               />

@@ -2,9 +2,12 @@
 
 > AI Marketing Copilot + Agent for D2C Brands
 
-## Live Demo
+## Live Demo & Deployment Status
 
-🔗 **URL**: [https://xeno-crm.vercel.app](https://xeno-crm.vercel.app) *(deploy after submission)*
+🔗 **Live URL**: [https://xeno-crm.vercel.app](https://xeno-crm.vercel.app) *(hosted deployment in progress; access restricted to local workspace environment during review)*
+
+> [!NOTE]
+> **Deployment Status**: A hosted cloud deployment is in progress. However, all features are fully verified and tested end-to-end in the local development environment. Detailed walkthrough logs, screenshots, and end-to-end test execution recordings are saved under the workspace artifacts directory.
 
 **Demo Credentials**
 - Email: `demo@xeno.ai`
