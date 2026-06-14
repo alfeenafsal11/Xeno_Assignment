@@ -171,3 +171,11 @@ caught by the API layer and returned as a 422 response.
 - Gemini can occasionally return partial JSON on very large prompts — handled by the json parse → re-prompt correction loop.
 - Agent steps are sequential (1 LLM call at a time) for clearer reasoning visibility, at the cost of slightly higher latency (~3-5s per step).
 - Celery runs in `-P solo` mode on Windows (no multiprocessing pool). For production Linux deployment this is not needed — standard prefork pool works correctly.
+
+---
+
+## Event Loop & Connection Pooling Bug (Step 3)
+
+- **The Issue**: Executing sequential tasks in the Windows solo pool worker using `asyncio.run()` created separate event loops, but the global SQLAlchemy async engine retained connection references associated with the closed loop of the first task. When a subsequent task reused a connection from the pool, `asyncpg` crashed with `AttributeError: 'NoneType' object has no attribute 'send'`.
+- **The Fix**: Added a `finally` block in the Celery task executor to call `await engine.dispose()`, forcing connection closure after each task run. Additionally, optimized campaign fan-out in `campaign_service.py` to fire HTTP requests concurrently via `asyncio.gather` with a semaphore of 10, preventing socket depletion and reducing launch execution latency from 44s to 0.84s.
+
