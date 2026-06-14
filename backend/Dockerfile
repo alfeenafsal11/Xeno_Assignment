@@ -8,11 +8,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
+# Install python dependencies from backend
+COPY backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Copy backend source code to /app
+COPY backend/ .
+
+# Copy channel-service source code to /app/channel-service
+COPY channel-service/ ./channel-service/
+
+# Make start script executable
+RUN chmod +x /app/start.sh
 
 EXPOSE 8000
+EXPOSE 8001
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/app/start.sh"]
