@@ -1,4 +1,8 @@
-const BASE = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+let rawBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+if (rawBase && !rawBase.startsWith("http://") && !rawBase.startsWith("https://")) {
+  rawBase = "https://" + rawBase;
+}
+const BASE = rawBase.replace(/\/$/, "");
 
 function getAuthHeaders(): Record<string, string> {
   const token = typeof window !== "undefined" ? localStorage.getItem("xeno_token") : null;
