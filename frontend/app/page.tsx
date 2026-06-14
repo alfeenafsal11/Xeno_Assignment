@@ -31,7 +31,8 @@ export default function LoginPage() {
       const data = await res.json();
       localStorage.setItem("xeno_token", data.access_token);
       router.push("/dashboard");
-    } catch {
+    } catch (err) {
+      console.error("Login error:", err);
       setError("Invalid email or password");
     } finally {
       setLoading(false);
